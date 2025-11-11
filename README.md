@@ -44,7 +44,7 @@ Corrige respostas automaticamente, atribui notas, identifica padrões e registra
 
 Gera documentos sobre desempenho, trilha de aprendizagem, recomendações e métricas de progresso.
 
-## 🏛️ Motivação e Contexto
+##  Motivação e Contexto
 
 Com a crescente adoção de IA na educação, sistemas multiagentes se destacam por permitir:
 
