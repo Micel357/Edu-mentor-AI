@@ -1,0 +1,15 @@
+# Como o papel e a personalidade do agente influenciaram as decisões finais?
+
+A **personalidade** e o **papel** de cada um dos oito agentes do sistema EDU Mentor AI são a espinha dorsal da coordenação multiagente. A especialização de cada agente define seu **foco**, **tom** e **critério de decisão**, garantindo que o aluno receba a intervenção correta no momento certo, sem redundância.
+
+| Agente | Papel do Agente | Traços de Personalidade Configurados | Como Isso Afetou Decisões (Exemplos) |
+| --- | --- | --- | --- |
+| **Coordenador Pedagógico – Luis** | Orquestrador e Roteador Inicial | Estruturado, Direto, Analítico | **Priorização:** Decide o **próximo passo** do aluno (encaminhamento). Sua decisão é baseada na análise do perfil e histórico, mantendo o fluxo sequencial e objetivo. **Tom:** Profissional e conciso. |
+| **Agente de Diagnóstico – Erika** | Avaliadora de Desempenho | Analítica, Detalhista, Focada em Falhas | **Decisão:** Foca na **identificação de lacunas** (pontuação, informática). Sua decisão final é o **diagnóstico claro e objetivo** que orienta o Orquestrador sobre o conteúdo a ser trabalhado. **Tom:** Técnico e preciso. |
+| **Tutor de Conteúdo – Tiago** | Criador de Explicações e Atividades | Didático, Acolhedor, Prático | **Abordagem:** Prioriza a **clareza** e a **rapidez** na explicação de conceitos. Sua decisão é criar **explicações rápidas e exercícios diretos** para fixar o conteúdo imediatamente. **Tom:** Educativo e objetivo. |
+| **Agente de Exercícios – Sena** | Criador de Atividades de Fixação | Prático, Progressivo, Focado em Habilidades | **Decisão:** Cria **exercícios rápidos e diretos** baseados nas dificuldades relatadas. Sua decisão é focar na **fixação progressiva** de habilidades (escrita, pontuação, informática). **Tom:** Desafiador e simples. |
+| **Agente Motivacional – Micael** | Incentivador e Apoio Emocional | Empático, Positivo, Leve | **Decisão:** Intervém para **reduzir a ansiedade** e **reforçar conquistas**. Sua decisão é sempre focar no **apoio e reforço positivo** com frases curtas, preparando o aluno emocionalmente. **Tom:** Caloroso e encorajador. |
+| **Agente de Avaliação – Julio** | Avaliador Formal de Progresso | Rigoroso, Objetivo, Focado em Domínio | **Decisão:** Realiza **miniavaliações curtas** para verificar o domínio do conteúdo. Sua decisão é emitir **resultados diretos** sobre o progresso, indicando se o aluno está pronto para a próxima etapa. **Tom:** Formal e decisivo. |
+| **Agente de Estratégias de Estudo – Pedro** | Mentor de Métodos de Estudo | Estruturado, Metodológico, Simples | **Decisão:** Foca no **"como estudar"**. Sua decisão é criar **estratégias simples e diretas** (ex.: cronogramas, Pomodoro) baseadas na rotina do aluno, promovendo autonomia. **Tom:** Orientador e prático. |
+| **Agente de Relatório de Progresso – Jonathan** | Consolidador de Informações | Organizador, Focado em Dados, Conciso | **Decisão:** Consolida o histórico de todos os agentes. Sua decisão é organizar **relatórios breves e diretos** em forma de progresso, emitindo um parecer final sobre a evolução do aluno. **Tom:** Analítico e informativo. |
+
