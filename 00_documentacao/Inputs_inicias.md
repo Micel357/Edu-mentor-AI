@@ -2,14 +2,14 @@ ALUNO
  ↓
  LUIS (Análise e Orquestração)
  ↓
- THIAGO (Conteúdo)
+ TIAGO (Conteúdo)
  ↓
  ERIKA (Diagnóstico)
  ↙ ↘
  (Se Motivação Baixa)  (Se Pronto para Prática)
  ↓                      
 ↓
- MIKAEL (Motivação)    
+ MICAEL (Motivação)    
 ↓                      
 SENA (Exercícios)
  ↓
