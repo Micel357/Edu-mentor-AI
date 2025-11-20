@@ -21,11 +21,11 @@ A mitigação no EDU Mentor AI deve focar na **restrição de saída** e na **cl
   - **Foco na Concisão:** O principal *sanity check* deve ser garantir que todos os *prompts* contenham restrições de **brevidade** e **objetividade** (ex.: "Faça perguntas curtas", "Envie relatórios breves").
   - **Teste de Fluxo:** Simular um ciclo completo (Diagnóstico -> Conteúdo -> Exercício -> Avaliação) para garantir que a transição entre os agentes seja suave e que o Orquestrador (Luis) não se perca.
 
-1. **Limites e Restrições (Em Execução):**
+2. **Limites e Restrições (Em Execução):**
   - **Comunicação Padronizada:** Reforçar a regra de que todos os agentes devem iniciar suas mensagens com "- ", o que facilita a identificação do locutor e a leitura do fluxo de conversa.
   - **Restrição de Tamanho:** Implementar limites de tokens para as respostas de agentes como Thiago e Mikael, forçando a concisão e a objetividade.
 
-1. **Sanity Checks e Auditoria (Pós-Execução):**
+3. **Sanity Checks e Auditoria (Pós-Execução):**
   - **Auditoria de Coerência:** O Coordenador (Luis) deve ter uma regra para verificar se o diagnóstico de Erika é **coerente** com o resultado da avaliação de Julio, garantindo que o progresso seja real e que o sistema não esteja apenas "passando" o aluno.
   - **Logging de Decisão:** Registrar a decisão de encaminhamento de Luis para auditar se ele está sempre enviando o aluno para o agente mais adequado.
 
