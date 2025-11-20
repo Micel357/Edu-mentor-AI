@@ -26,9 +26,9 @@ O sistema é composto por 8 agentes, coordenados por Luis:
 | Agente | Função | Foco |
 | :--- | :--- | :--- |
 | **Luis** | Coordenador Pedagógico (Orquestrador) | Gestão de Fluxo e Roteamento |
-| **Tiago** | Tutor de Conteúdo | Explicação e Exercícios Iniciais |
+| **Thiago** | Tutor de Conteúdo | Explicação e Exercícios Iniciais |
 | **Erika** | Agente de Diagnóstico | Avaliação de Desempenho e Identificação de Falhas |
-| **Micael** | Agente Motivacional | Apoio Emocional e Reforço Positivo |
+| **Mikael** | Agente Motivacional | Apoio Emocional e Reforço Positivo |
 | **Sena** | Agente de Exercícios | Criação de Atividades Personalizadas |
 | **Julio** | Agente de Avaliação | Medição Formal de Progresso |
 | **Pedro** | Agente de Estratégias de Estudo | Organização de Rotina e Cronograma |
