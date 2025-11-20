@@ -1,30 +1,30 @@
 ALUNO
- ↓
- LUIS (Análise e Orquestração)
- ↓
- TIAGO (Conteúdo)
- ↓
- ERIKA (Diagnóstico)
- ↙ ↘
- (Se Motivação Baixa)  (Se Pronto para Prática)
- ↓                      
 ↓
- MICAEL (Motivação)    
-↓                      
+LUIS (Análise e Orquestração)
+↓
+THIAGO (Conteúdo)
+↓
+ERIKA (Diagnóstico)
+↙ ↘
+(Se Motivação Baixa) (Se Pronto para Prática)
+↓
+↓
+MIKAEL (Motivação)
+↓
 SENA (Exercícios)
- ↓
- [Loop de Retorno] ← ← ← ←
- ↓
- JULIO (Avaliação)
- ↓
- PEDRO (Estratégias)
- ↓
- JONATHAN (Relatório)
- ↓
- LUIS (Fechamento)
- Ponto Chave: O fluxo não é linear; é adaptativo, com loops de retorno. Se o
- diagnóstico indicar necessidade de motivação, o sistema volta para Micael. Se o aluno
- precisar de mais prática, volta para Sena
+↓
+[Loop de Retorno] ← ← ← ←
+↓
+JULIO (Avaliação)
+↓
+PEDRO (Estratégias)
+↓
+JONATHAN (Relatório)
+↓
+LUIS (Fechamento)
+Ponto Chave: O fluxo não é linear; é adaptativo, com loops de retorno. Se o
+diagnóstico indicar necessidade de motivação, o sistema volta para Mikael. Se o aluno
+precisar de mais prática, volta para Sena
 
 
 # Simulação de Conversação - EduMentor AI
@@ -41,27 +41,27 @@ SENA (Exercícios)
 **Aluno João:** Acho que os dois, mas a pontuação me confunde muito.
 
 **Agente Luis (Coordenador Pedagógico)**
-- Entendido. Analisei seu histórico. Vejo que você precisa de um acompanhamento focado. Vou te encaminhar para o **Tiago**, nosso Tutor de Conteúdo. Ele vai te ajudar a revisar os conceitos e começar com atividades práticas.
+- Entendido. Analisei seu histórico. Vejo que você precisa de um acompanhamento focado. Vou te encaminhar para o **Thiago**, nosso Tutor de Conteúdo. Ele vai te ajudar a revisar os conceitos e começar com atividades práticas.
 
-**Agente Luis (Coordenador Pedagógico) para Tiago:**
-- Tiago, o aluno João precisa de suporte em pontuação e informática básica. Por favor, inicie o acompanhamento com atividades semanais e revisão de conceitos.
+**Agente Luis (Coordenador Pedagógico) para Thiago:**
+- **Thiago**, o aluno João precisa de suporte em pontuação e informática básica. Por favor, inicie o acompanhamento com atividades semanais e revisão de conceitos.
 
-## Interação com Tiago (Tutor de Conteúdo)
+## Interação com Thiago (Tutor de Conteúdo)
 
-**Agente Tiago (Tutor de Conteúdo)**
-- Olá, João! Sou Tiago. Fico feliz em te receber. Vamos começar com o básico para que você se sinta seguro. Qual regra de pontuação te parece mais difícil de entender?
+**Agente Thiago (Tutor de Conteúdo)**
+- Olá, João! Sou **Thiago**. Fico feliz em te receber. Vamos começar com o básico para que você se sinta seguro. Qual regra de pontuação te parece mais difícil de entender?
 
 **Aluno João:** A vírgula. Nunca sei quando usar.
 
-**Agente Tiago (Tutor de Conteúdo)**
+**Agente Thiago (Tutor de Conteúdo)**
 - Ótimo. A vírgula é um desafio comum. Vou te explicar de forma clara a regra principal e te dar um exercício rápido.
 
-**(Tiago cria exercícios e explicações)**
+**(Thiago cria exercícios e explicações)**
 
-**Agente Tiago (Tutor de Conteúdo)**
+**Agente Thiago (Tutor de Conteúdo)**
 - Para garantir que estamos no caminho certo, vou pedir um diagnóstico mais detalhado. Vou chamar a **Erika**, nossa Agente de Diagnóstico.
 
-**Agente Tiago (Tutor de Conteúdo) para Erika:**
+**Agente Thiago (Tutor de Conteúdo) para Erika:**
 - Erika, o João está iniciando o acompanhamento. Por favor, aplique os testes práticos de pontuação e informática para termos um diagnóstico preciso.
 
 ## Interação com Erika (Agente de Diagnóstico)
@@ -82,12 +82,12 @@ SENA (Exercícios)
 ## Interação com Luis (Coordenador Pedagógico) - Retorno
 
 **Agente Luis (Coordenador Pedagógico) para Mikael:**
-- Mikael, o João precisa de um reforço motivacional. Erika notou desmotivação. Por favor, faça um acolhimento e reforce a confiança dele.
+- **Mikael**, o João precisa de um reforço motivacional. Erika notou desmotivação. Por favor, faça um acolhimento e reforce a confiança dele.
 
 ## Interação com Mikael (Agente Motivacional)
 
 **Agente Mikael (Agente Motivacional)**
-- Oi, João. Sou Mikael. Como você está se sentindo hoje?
+- Oi, João. Sou **Mikael**. Como você está se sentindo hoje?
 
 **Aluno João:** Um pouco frustrado por ser lento.
 
