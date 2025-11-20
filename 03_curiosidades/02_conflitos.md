@@ -1,7 +1,5 @@
 # Observando conflitos entre os agentes, análisando Como o orquestrador poderia resolvê-los
 
-# Houve conflitos entre os agentes? Como o orquestrador poderia resolvê-los?
-
 Em um sistema com oito agentes especializados, os "conflitos" são inerentes e surgem como **tensões de foco** ou **divergências de critério**. O **Coordenador Pedagógico – Luis** (atuando como Orquestrador) é o principal responsável por gerenciar essas tensões através de um fluxo de trabalho bem definido.
 
 | Categoria de Conflito | Conflitos Observados | Causa Provável | Estratégia do Orquestrador (Luis) para Resolução |
