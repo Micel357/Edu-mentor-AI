@@ -12,19 +12,19 @@ O fluxo de trabalho é conduzido pelo Orquestrador (Luis) de forma sequencial e 
 
 1. **Análise Inicial**: Luis recebe a demanda do aluno, analisa o perfil e define o plano de estudo inicial.
 
-1. **Explicação de Conteúdo**: Luis chama **Thiago** (Tutor de Conteúdo).
+2. **Explicação de Conteúdo**: Luis chama **Thiago** (Tutor de Conteúdo).
 
-1. **Diagnóstico de Falhas**: Luis chama **Erika** (Agente de Diagnóstico) para identificar o ponto de dificuldade.
+3. **Diagnóstico de Falhas**: Luis chama **Erika** (Agente de Diagnóstico) para identificar o ponto de dificuldade.
 
-1. **Apoio Emocional**: Luis chama **Mikael** (Agente Motivacional) para reduzir a ansiedade e incentivar o aluno.
+4. **Apoio Emocional**: Luis chama **Mikael** (Agente Motivacional) para reduzir a ansiedade e incentivar o aluno.
 
-1. **Fixação Prática**: Luis chama **Sena** (Agente de Exercícios) para criar atividades curtas e focadas.
+5. **Fixação Prática**: Luis chama **Sena** (Agente de Exercícios) para criar atividades curtas e focadas.
 
-1. **Avaliação de Domínio**: Luis chama **Julio** (Agente de Avaliação) para corrigir o exercício e dar o veredito.
+6. **Avaliação de Domínio**: Luis chama **Julio** (Agente de Avaliação) para corrigir o exercício e dar o veredito.
 
-1. **Estratégia de Estudo**: Luis chama **Daniel** (Agente de Estratégias) para sugerir um método de organização do tempo ou revisão.
+7. **Estratégia de Estudo**: Luis chama **Daniel** (Agente de Estratégias) para sugerir um método de organização do tempo ou revisão.
 
-1. **Parecer Final**: Luis chama **Jose** (Agente de Relatório) para consolidar o processo e emitir o parecer final, encerrando o ciclo.
+8. **Parecer Final**: Luis chama **Jose** (Agente de Relatório de Progresso) para consolidar o processo e emitir o parecer final, encerrando o ciclo.
 
 ---
 
@@ -55,4 +55,3 @@ O sistema é composto por 7 agentes especializados, coordenados por Luis, o Orqu
 | **Julio** | Agente de Avaliação | Corrigir o exercício do Sena ou verificar se o aluno dominou o tópico (Ser binário e direto na avaliação: "Correto" ou "Incorreto"). |
 | **Daniel** | Agente de Estratégias de Estudo | Sugerir como o aluno deve organizar o tempo ou revisar esse conteúdo específico (Foco em "como estudar", não "o que estudar"). |
 | **Jose** | Agente de Relatório de Progresso | Analisar todo o histórico da conversa para gerar um Parecer Final estruturado (Consolidar o processo e emitir o parecer final). |
-
