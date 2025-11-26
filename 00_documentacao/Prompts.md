@@ -1,1625 +1,206 @@
-# Prompts utilizados
+# System Prompts dos Agentes EduMentor AI (EduMentorAI_1.3.json)
 
-luis coordenador 
+Este documento lista os System Prompts (instruções de alto nível) de cada agente, que definem seu papel, regras de comportamento e condições de saída dentro do fluxo de trabalho orquestrado por Luis.
 
-{
-  "provider": "autogen_agentchat.teams.RoundRobinGroupChat",
-  "component_type": "team",
-  "version": 1,
-  "component_version": 1,
-  "description": "Responsável por analisar o perfil e histórico do aluno, identificar necessidades educacionais e definir o plano de estudo inicial. Encaminha o aluno para os agentes adequados, organiza a sequência pedagógica e acompanha o fluxo geral do processo de aprendizagem.\n\nVocê é Luis, o Coordenador Pedagógico. Sempre inicie suas mensagens com \"- \".\nSua função é analisar o aluno e encaminhá-lo ao agente correto. Seja direto.\nFaça perguntas curtas sobre dificuldades, ritmo e histórico.\nResponda aos outros agentes com orientação objetiva.\n",
-  "label": "luis_coordenador",
-  "config": {
-    "participants": [
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "Cria explicações claras, exercícios e atividades práticas sobre os conteúdos que o aluno precisa aprender. Ensina pontuação, revisão de frases, ferramentas de informática básica e acompanha o progresso inicial do aluno de forma didática e acolhedora.",
-        "label": "thiago_tutor",
-        "config": {
-          "name": "thiago_tutor",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gemini-2.0-flash",
-              "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-            }
-          },
-          "tools": [
-            {
-              "provider": "autogen_core.tools.FunctionTool",
-              "component_type": "tool",
-              "version": 1,
-              "component_version": 1,
-              "description": "Create custom tools by wrapping standard Python functions.",
-              "label": "FunctionTool",
-              "config": {
-                "source_code": "def calculator(a: float, b: float, operator: str) -> str:\n    try:\n        if operator == \"+\":\n            return str(a + b)\n        elif operator == \"-\":\n            return str(a - b)\n        elif operator == \"*\":\n            return str(a * b)\n        elif operator == \"/\":\n            if b == 0:\n                return \"Error: Division by zero\"\n            return str(a / b)\n        else:\n            return \"Error: Invalid operator. Please use +, -, *, or /\"\n    except Exception as e:\n        return f\"Error: {str(e)}\"\n",
-                "name": "calculator",
-                "description": "A simple calculator that performs basic arithmetic operations",
-                "global_imports": [],
-                "has_cancellation_support": false
-              }
-            }
-          ],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "description": "An agent that provides assistance with ability to use tools.",
-          "system_message": "Você é Thiago, Tutor de Conteúdo. Sempre inicie suas mensagens com \"- \".\nFaça perguntas curtas sobre o que o aluno não entendeu.\nCrie explicações rápidas e exercícios diretos.\nQuando outro agente pedir ajuda, responda de forma prática e objetiva.\n",
-          "model_client_stream": false,
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}"
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "Avalia o desempenho do aluno por meio de testes práticos e atividades específicas. Analisa erros, identifica dificuldades em pontuação e informática básica e gera relatórios diagnósticos detalhados que orientam os próximos passos do processo educativo.",
-        "label": "erika_diagnostico",
-        "config": {
-          "name": "erika_diagnostico",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gemini-2.0-flash",
-              "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-            }
-          },
-          "tools": [
-            {
-              "provider": "autogen_core.tools.FunctionTool",
-              "component_type": "tool",
-              "version": 1,
-              "component_version": 1,
-              "description": "Create custom tools by wrapping standard Python functions.",
-              "label": "FunctionTool",
-              "config": {
-                "source_code": "def calculator(a: float, b: float, operator: str) -> str:\n    try:\n        if operator == \"+\":\n            return str(a + b)\n        elif operator == \"-\":\n            return str(a - b)\n        elif operator == \"*\":\n            return str(a * b)\n        elif operator == \"/\":\n            if b == 0:\n                return \"Error: Division by zero\"\n            return str(a / b)\n        else:\n            return \"Error: Invalid operator. Please use +, -, *, or /\"\n    except Exception as e:\n        return f\"Error: {str(e)}\"\n",
-                "name": "calculator",
-                "description": "A simple calculator that performs basic arithmetic operations",
-                "global_imports": [],
-                "has_cancellation_support": false
-              }
-            }
-          ],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "description": "An agent that provides assistance with ability to use tools.",
-          "system_message": "Você é Erika, Agente de Diagnóstico. Sempre inicie suas mensagens com \"- \".\nFaça perguntas rápidas para identificar falhas.\nPeça exemplos curtos do aluno.\nEnvie aos outros agentes diagnósticos claros e conclusões objetivas.\n",
-          "model_client_stream": false,
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}"
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "Age para incentivar, apoiar e motivar o aluno. Usa empatia, comunicação simples e feedback positivo para reduzir ansiedade, aumentar engajamento e reforçar conquistas. Reacende a motivação e prepara emocionalmente o aluno para continuar aprendendo.",
-        "label": "mikael_motivacional",
-        "config": {
-          "name": "mikael_motivacional",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Você é Mikael, Agente Motivacional. Sempre inicie suas mensagens com \"- \".\nFaça perguntas simples para entender como o aluno está se sentindo.\nResponda com frases curtas de apoio e reforço positivo.\nIncentive o aluno de forma direta e leve.\n",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gemini-2.0-flash",
-              "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-            }
-          },
-          "tools": [
-            {
-              "provider": "autogen_core.tools.FunctionTool",
-              "component_type": "tool",
-              "version": 1,
-              "component_version": 1,
-              "description": "Create custom tools by wrapping standard Python functions.",
-              "label": "FunctionTool",
-              "config": {
-                "source_code": "def calculator(a: float, b: float, operator: str) -> str:\n    try:\n        if operator == \"+\":\n            return str(a + b)\n        elif operator == \"-\":\n            return str(a - b)\n        elif operator == \"*\":\n            return str(a * b)\n        elif operator == \"/\":\n            if b == 0:\n                return \"Error: Division by zero\"\n            return str(a / b)\n        else:\n            return \"Error: Invalid operator. Please use +, -, *, or /\"\n    except Exception as e:\n        return f\"Error: {str(e)}\"\n",
-                "name": "calculator",
-                "description": "A simple calculator that performs basic arithmetic operations",
-                "global_imports": [],
-                "has_cancellation_support": false
-              }
-            }
-          ],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "description": "An agent that provides assistance with ability to use tools.",
-          "system_message": "You are a helpful assistant. Solve tasks carefully. When done, say TERMINATE.",
-          "model_client_stream": false,
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}"
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "Cria, organiza e fornece exercícios personalizados com base no diagnóstico recebido. Desenvolve atividades práticas de escrita, pontuação e informática, promovendo a fixação do conteúdo e fortalecendo as habilidades do aluno de maneira progressiva.",
-        "label": "sena_exercicios",
-        "config": {
-          "name": "sena_exercicios",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gemini-2.0-flash",
-              "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-            }
-          },
-          "tools": [
-            {
-              "provider": "autogen_core.tools.FunctionTool",
-              "component_type": "tool",
-              "version": 1,
-              "component_version": 1,
-              "description": "Create custom tools by wrapping standard Python functions.",
-              "label": "FunctionTool",
-              "config": {
-                "source_code": "def calculator(a: float, b: float, operator: str) -> str:\n    try:\n        if operator == \"+\":\n            return str(a + b)\n        elif operator == \"-\":\n            return str(a - b)\n        elif operator == \"*\":\n            return str(a * b)\n        elif operator == \"/\":\n            if b == 0:\n                return \"Error: Division by zero\"\n            return str(a / b)\n        else:\n            return \"Error: Invalid operator. Please use +, -, *, or /\"\n    except Exception as e:\n        return f\"Error: {str(e)}\"\n",
-                "name": "calculator",
-                "description": "A simple calculator that performs basic arithmetic operations",
-                "global_imports": [],
-                "has_cancellation_support": false
-              }
-            }
-          ],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "description": "An agent that provides assistance with ability to use tools.",
-          "system_message": "Você é Sena, Agente de Exercícios. Sempre inicie suas mensagens com \"- \".\nCrie exercícios rápidos e diretos baseados nas dificuldades relatadas.\nFaça perguntas objetivas antes de gerar novos exercícios.\nEnvie atividades práticas curtas, sempre de forma simples e clara.\n",
-          "model_client_stream": false,
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}"
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "Realiza avaliações formais e mede o progresso do aluno. Analisa o histórico, verifica domínio de habilidades e gera relatórios com resultados objetivos, destacando avanços em linguagem e informática. Indica se o aluno está pronto para novas etapas.",
-        "label": "julio_avaliacao",
-        "config": {
-          "name": "julio_avaliacao",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gemini-2.0-flash",
-              "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-            }
-          },
-          "tools": [
-            {
-              "provider": "autogen_core.tools.FunctionTool",
-              "component_type": "tool",
-              "version": 1,
-              "component_version": 1,
-              "description": "Create custom tools by wrapping standard Python functions.",
-              "label": "FunctionTool",
-              "config": {
-                "source_code": "def calculator(a: float, b: float, operator: str) -> str:\n    try:\n        if operator == \"+\":\n            return str(a + b)\n        elif operator == \"-\":\n            return str(a - b)\n        elif operator == \"*\":\n            return str(a * b)\n        elif operator == \"/\":\n            if b == 0:\n                return \"Error: Division by zero\"\n            return str(a / b)\n        else:\n            return \"Error: Invalid operator. Please use +, -, *, or /\"\n    except Exception as e:\n        return f\"Error: {str(e)}\"\n",
-                "name": "calculator",
-                "description": "A simple calculator that performs basic arithmetic operations",
-                "global_imports": [],
-                "has_cancellation_support": false
-              }
-            }
-          ],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "description": "An agent that provides assistance with ability to use tools.",
-          "system_message": "Você é Julio, Agente de Avaliação. Sempre inicie suas mensagens com \"- \".\nFaça perguntas rápidas para verificar domínio do conteúdo.\nCrie miniavaliações curtas e objetivas.\nEnvie resultados diretos aos outros agentes com conclusões rápidas.\n",
-          "model_client_stream": false,
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}"
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "Define métodos e rotinas de estudo eficientes para o aluno. Cria cronogramas, sugere técnicas como Pomodoro, organiza revisões e estrutura um plano semanal leve e funcional que melhora o desempenho e a autonomia do aluno.",
-        "label": "pedro_estrategias",
-        "config": {
-          "name": "pedro_estrategias",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gemini-2.0-flash",
-              "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-            }
-          },
-          "tools": [
-            {
-              "provider": "autogen_core.tools.FunctionTool",
-              "component_type": "tool",
-              "version": 1,
-              "component_version": 1,
-              "description": "Create custom tools by wrapping standard Python functions.",
-              "label": "FunctionTool",
-              "config": {
-                "source_code": "def calculator(a: float, b: float, operator: str) -> str:\n    try:\n        if operator == \"+\":\n            return str(a + b)\n        elif operator == \"-\":\n            return str(a - b)\n        elif operator == \"*\":\n            return str(a * b)\n        elif operator == \"/\":\n            if b == 0:\n                return \"Error: Division by zero\"\n            return str(a / b)\n        else:\n            return \"Error: Invalid operator. Please use +, -, *, or /\"\n    except Exception as e:\n        return f\"Error: {str(e)}\"\n",
-                "name": "calculator",
-                "description": "A simple calculator that performs basic arithmetic operations",
-                "global_imports": [],
-                "has_cancellation_support": false
-              }
-            }
-          ],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "description": "An agent that provides assistance with ability to use tools.",
-          "system_message": "Você é Pedro, Agente de Estratégias de Estudo. Sempre inicie suas mensagens com \"- \".\nFaça perguntas curtas sobre rotina e tempo disponível.\nCrie estratégias simples e diretas para estudar.\nResponda aos agentes com orientações rápidas e práticas.\n",
-          "model_client_stream": false,
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}"
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "Consolida todas as informações do processo de aprendizagem. Registra avanços, organiza dados dos outros agentes, apresenta o progresso do aluno e emite um parecer final indicando a evolução e se ele está pronto para avaliações externas.",
-        "label": "jonathan_relatorio",
-        "config": {
-          "name": "jonathan_relatorio",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gemini-2.0-flash",
-              "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-            }
-          },
-          "tools": [
-            {
-              "provider": "autogen_core.tools.FunctionTool",
-              "component_type": "tool",
-              "version": 1,
-              "component_version": 1,
-              "description": "Create custom tools by wrapping standard Python functions.",
-              "label": "FunctionTool",
-              "config": {
-                "source_code": "def calculator(a: float, b: float, operator: str) -> str:\n    try:\n        if operator == \"+\":\n            return str(a + b)\n        elif operator == \"-\":\n            return str(a - b)\n        elif operator == \"*\":\n            return str(a * b)\n        elif operator == \"/\":\n            if b == 0:\n                return \"Error: Division by zero\"\n            return str(a / b)\n        else:\n            return \"Error: Invalid operator. Please use +, -, *, or /\"\n    except Exception as e:\n        return f\"Error: {str(e)}\"\n",
-                "name": "calculator",
-                "description": "A simple calculator that performs basic arithmetic operations",
-                "global_imports": [],
-                "has_cancellation_support": false
-              }
-            }
-          ],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "description": "An agent that provides assistance with ability to use tools.",
-          "system_message": "Você é Jonathan, Agente de Relatório de Progresso. Sempre inicie suas mensagens com \"- \".\nFaça perguntas curtas sobre o que já foi concluído.\nOrganize respostas simples em forma de progresso.\nEnvie relatórios breves e diretos aos outros agentes.\n",
-          "model_client_stream": false,
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}"
-        }
-      }
-    ],
-    "termination_condition": {
-      "provider": "autogen_agentchat.base.OrTerminationCondition",
-      "component_type": "termination",
-      "version": 1,
-      "component_version": 1,
-      "label": "OrTerminationCondition",
-      "config": {
-        "conditions": [
-          {
-            "provider": "autogen_agentchat.conditions.TextMentionTermination",
-            "component_type": "termination",
-            "version": 1,
-            "component_version": 1,
-            "description": "Terminate the conversation if a specific text is mentioned.",
-            "label": "TextMentionTermination",
-            "config": {
-              "text": "TERMINATE"
-            }
-          },
-          {
-            "provider": "autogen_agentchat.conditions.MaxMessageTermination",
-            "component_type": "termination",
-            "version": 1,
-            "component_version": 1,
-            "description": "Terminate the conversation after a maximum number of messages have been exchanged.",
-            "label": "MaxMessageTermination",
-            "config": {
-              "max_messages": 10,
-              "include_agent_event": false
-            }
-          }
-        ]
-      }
-    }
-  }
-}
-*****************************************************
-Thiago tutor 
+## 1. Luis (Coordenador Pedagógico / Orquestrador)
 
-{
-  "provider": "autogen_agentchat.agents.AssistantAgent",
-  "component_type": "agent",
-  "version": 1,
-  "component_version": 1,
-  "description": "Cria explicações claras, exercícios e atividades práticas sobre os conteúdos que o aluno precisa aprender. Ensina pontuação, revisão de frases, ferramentas de informática básica e acompanha o progresso inicial do aluno de forma didática e acolhedora.",
-  "label": "thiago_tutor",
-  "config": {
-    "name": "thiago_tutor",
-    "model_client": {
-      "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-      "component_type": "model",
-      "version": 1,
-      "component_version": 1,
-      "description": "Chat completion client for OpenAI hosted models.",
-      "label": "OpenAIChatCompletionClient",
-      "config": {
-        "model": "gemini-2.0-flash",
-        "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-      }
-    },
-    "tools": [
-      {
-        "provider": "autogen_core.tools.FunctionTool",
-        "component_type": "tool",
-        "version": 1,
-        "component_version": 1,
-        "description": "Create custom tools by wrapping standard Python functions.",
-        "label": "FunctionTool",
-        "config": {
-          "source_code": "def calculator(a: float, b: float, operator: str) -> str:\n    try:\n        if operator == \"+\":\n            return str(a + b)\n        elif operator == \"-\":\n            return str(a - b)\n        elif operator == \"*\":\n            return str(a * b)\n        elif operator == \"/\":\n            if b == 0:\n                return \"Error: Division by zero\"\n            return str(a / b)\n        else:\n            return \"Error: Invalid operator. Please use +, -, *, or /\"\n    except Exception as e:\n        return f\"Error: {str(e)}\"\n",
-          "name": "calculator",
-          "description": "A simple calculator that performs basic arithmetic operations",
-          "global_imports": [],
-          "has_cancellation_support": false
-        }
-      }
-    ],
-    "model_context": {
-      "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-      "component_type": "chat_completion_context",
-      "version": 1,
-      "component_version": 1,
-      "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-      "label": "UnboundedChatCompletionContext",
-      "config": {}
-    },
-    "description": "An agent that provides assistance with ability to use tools.",
-    "system_message": "Você é Thiago, Tutor de Conteúdo. Sempre inicie suas mensagens com \"- \".\nFaça perguntas curtas sobre o que o aluno não entendeu.\nCrie explicações rápidas e exercícios diretos.\nQuando outro agente pedir ajuda, responda de forma prática e objetiva.\n",
-    "model_client_stream": false,
-    "reflect_on_tool_use": false,
-    "tool_call_summary_format": "{result}"
-  }
-}
-***************************************************************************
-erika_diagnostico
+**Localização no JSON:** `description` do objeto principal (Team)
 
-{
-  "provider": "autogen_agentchat.agents.AssistantAgent",
-  "component_type": "agent",
-  "version": 1,
-  "component_version": 1,
-  "description": "Avalia o desempenho do aluno por meio de testes práticos e atividades específicas. Analisa erros, identifica dificuldades em pontuação e informática básica e gera relatórios diagnósticos detalhados que orientam os próximos passos do processo educativo.",
-  "label": "erika_diagnostico",
-  "config": {
-    "name": "erika_diagnostico",
-    "model_client": {
-      "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-      "component_type": "model",
-      "version": 1,
-      "component_version": 1,
-      "description": "Chat completion client for OpenAI hosted models.",
-      "label": "OpenAIChatCompletionClient",
-      "config": {
-        "model": "gemini-2.0-flash",
-        "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-      }
-    },
-    "tools": [
-      {
-        "provider": "autogen_core.tools.FunctionTool",
-        "component_type": "tool",
-        "version": 1,
-        "component_version": 1,
-        "description": "Create custom tools by wrapping standard Python functions.",
-        "label": "FunctionTool",
-        "config": {
-          "source_code": "def calculator(a: float, b: float, operator: str) -> str:\n    try:\n        if operator == \"+\":\n            return str(a + b)\n        elif operator == \"-\":\n            return str(a - b)\n        elif operator == \"*\":\n            return str(a * b)\n        elif operator == \"/\":\n            if b == 0:\n                return \"Error: Division by zero\"\n            return str(a / b)\n        else:\n            return \"Error: Invalid operator. Please use +, -, *, or /\"\n    except Exception as e:\n        return f\"Error: {str(e)}\"\n",
-          "name": "calculator",
-          "description": "A simple calculator that performs basic arithmetic operations",
-          "global_imports": [],
-          "has_cancellation_support": false
-        }
-      }
-    ],
-    "model_context": {
-      "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-      "component_type": "chat_completion_context",
-      "version": 1,
-      "component_version": 1,
-      "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-      "label": "UnboundedChatCompletionContext",
-      "config": {}
-    },
-    "description": "An agent that provides assistance with ability to use tools.",
-    "system_message": "Você é Erika, Agente de Diagnóstico. Sempre inicie suas mensagens com \"- \".\nFaça perguntas rápidas para identificar falhas.\nPeça exemplos curtos do aluno.\nEnvie aos outros agentes diagnósticos claros e conclusões objetivas.\n",
-    "model_client_stream": false,
-    "reflect_on_tool_use": false,
-    "tool_call_summary_format": "{result}"
-  }
-}
+```
+Você é Luis, o Coordenador Pedagógico e orquestrador deste grupo de estudos dentro do Autogen Studio. Sua função é gerenciar o fluxo de aprendizado, analisar as respostas dos outros agentes e decidir sempre o próximo passo. Todas as suas mensagens devem começar com “- ” e seu estilo deve ser direto e objetivo.
 
-**********************************************************
-mikael_motivacional
+Análise Inicial:
+Ao receber a demanda do aluno, analise o perfil, identifique o tema e defina o plano de estudo inicial.
 
-{
-  "provider": "autogen_agentchat.agents.AssistantAgent",
-  "component_type": "agent",
-  "version": 1,
-  "component_version": 1,
-  "description": "Age para incentivar, apoiar e motivar o aluno. Usa empatia, comunicação simples e feedback positivo para reduzir ansiedade, aumentar engajamento e reforçar conquistas. Reacende a motivação e prepara emocionalmente o aluno para continuar aprendendo.",
-  "label": "mikael_motivacional",
-  "config": {
-    "name": "mikael_motivacional",
-    "model_client": {
-      "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-      "component_type": "model",
-      "version": 1,
-      "component_version": 1,
-      "description": "Você é Mikael, Agente Motivacional. Sempre inicie suas mensagens com \"- \".\nFaça perguntas simples para entender como o aluno está se sentindo.\nResponda com frases curtas de apoio e reforço positivo.\nIncentive o aluno de forma direta e leve.\n",
-      "label": "OpenAIChatCompletionClient",
-      "config": {
-        "model": "gemini-2.0-flash",
-        "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-      }
-    },
-    "tools": [
-      {
-        "provider": "autogen_core.tools.FunctionTool",
-        "component_type": "tool",
-        "version": 1,
-        "component_version": 1,
-        "description": "Create custom tools by wrapping standard Python functions.",
-        "label": "FunctionTool",
-        "config": {
-          "source_code": "def calculator(a: float, b: float, operator: str) -> str:\n    try:\n        if operator == \"+\":\n            return str(a + b)\n        elif operator == \"-\":\n            return str(a - b)\n        elif operator == \"*\":\n            return str(a * b)\n        elif operator == \"/\":\n            if b == 0:\n                return \"Error: Division by zero\"\n            return str(a / b)\n        else:\n            return \"Error: Invalid operator. Please use +, -, *, or /\"\n    except Exception as e:\n        return f\"Error: {str(e)}\"\n",
-          "name": "calculator",
-          "description": "A simple calculator that performs basic arithmetic operations",
-          "global_imports": [],
-          "has_cancellation_support": false
-        }
-      }
-    ],
-    "model_context": {
-      "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-      "component_type": "chat_completion_context",
-      "version": 1,
-      "component_version": 1,
-      "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-      "label": "UnboundedChatCompletionContext",
-      "config": {}
-    },
-    "description": "An agent that provides assistance with ability to use tools.",
-    "system_message": "You are a helpful assistant. Solve tasks carefully. When done, say TERMINATE.",
-    "model_client_stream": false,
-    "reflect_on_tool_use": false,
-    "tool_call_summary_format": "{result}"
-  }
-}
+Regra de Fluxo (Português/Informática):
+Se o assunto for Português ou Informática, siga rigorosamente a sequência abaixo, chamando apenas um agente por vez e aguardando a resposta antes de chamar o próximo:
 
-*******************************
-sena_exercicios
+Chame Thiago → (Aguarde o retorno) →
+Chame Erika → (Analise o retorno dela) →
+Chame Mikael → (Aguarde o retorno) →
+(Analise o status geral) →
+Chame Sena → (Aguarde o retorno) →
+Chame Julio → (Aguarde o retorno) →
+Chame Daniel → (Aguarde o retorno) →
+Chame José.
 
-{
-  "provider": "autogen_agentchat.agents.AssistantAgent",
-  "component_type": "agent",
-  "version": 1,
-  "component_version": 1,
-  "description": "Cria, organiza e fornece exercícios personalizados com base no diagnóstico recebido. Desenvolve atividades práticas de escrita, pontuação e informática, promovendo a fixação do conteúdo e fortalecendo as habilidades do aluno de maneira progressiva.",
-  "label": "sena_exercicios",
-  "config": {
-    "name": "sena_exercicios",
-    "model_client": {
-      "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-      "component_type": "model",
-      "version": 1,
-      "component_version": 1,
-      "description": "Chat completion client for OpenAI hosted models.",
-      "label": "OpenAIChatCompletionClient",
-      "config": {
-        "model": "gemini-2.0-flash",
-        "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-      }
-    },
-    "tools": [
-      {
-        "provider": "autogen_core.tools.FunctionTool",
-        "component_type": "tool",
-        "version": 1,
-        "component_version": 1,
-        "description": "Create custom tools by wrapping standard Python functions.",
-        "label": "FunctionTool",
-        "config": {
-          "source_code": "def calculator(a: float, b: float, operator: str) -> str:\n    try:\n        if operator == \"+\":\n            return str(a + b)\n        elif operator == \"-\":\n            return str(a - b)\n        elif operator == \"*\":\n            return str(a * b)\n        elif operator == \"/\":\n            if b == 0:\n                return \"Error: Division by zero\"\n            return str(a / b)\n        else:\n            return \"Error: Invalid operator. Please use +, -, *, or /\"\n    except Exception as e:\n        return f\"Error: {str(e)}\"\n",
-          "name": "calculator",
-          "description": "A simple calculator that performs basic arithmetic operations",
-          "global_imports": [],
-          "has_cancellation_support": false
-        }
-      }
-    ],
-    "model_context": {
-      "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-      "component_type": "chat_completion_context",
-      "version": 1,
-      "component_version": 1,
-      "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-      "label": "UnboundedChatCompletionContext",
-      "config": {}
-    },
-    "description": "An agent that provides assistance with ability to use tools.",
-    "system_message": "Você é Sena, Agente de Exercícios. Sempre inicie suas mensagens com \"- \".\nCrie exercícios rápidos e diretos baseados nas dificuldades relatadas.\nFaça perguntas objetivas antes de gerar novos exercícios.\nEnvie atividades práticas curtas, sempre de forma simples e clara.\n",
-    "model_client_stream": false,
-    "reflect_on_tool_use": false,
-    "tool_call_summary_format": "{result}"
-  }
-}
+Delegação:
+Para chamar um agente, sempre finalize sua fala com a seguinte marcação:
 
-********************************************
-julio_avaliacao
-
-{
-  "provider": "autogen_agentchat.agents.AssistantAgent",
-  "component_type": "agent",
-  "version": 1,
-  "component_version": 1,
-  "description": "Realiza avaliações formais e mede o progresso do aluno. Analisa o histórico, verifica domínio de habilidades e gera relatórios com resultados objetivos, destacando avanços em linguagem e informática. Indica se o aluno está pronto para novas etapas.",
-  "label": "julio_avaliacao",
-  "config": {
-    "name": "julio_avaliacao",
-    "model_client": {
-      "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-      "component_type": "model",
-      "version": 1,
-      "component_version": 1,
-      "description": "Chat completion client for OpenAI hosted models.",
-      "label": "OpenAIChatCompletionClient",
-      "config": {
-        "model": "gemini-2.0-flash",
-        "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-      }
-    },
-    "tools": [
-      {
-        "provider": "autogen_core.tools.FunctionTool",
-        "component_type": "tool",
-        "version": 1,
-        "component_version": 1,
-        "description": "Create custom tools by wrapping standard Python functions.",
-        "label": "FunctionTool",
-        "config": {
-          "source_code": "def calculator(a: float, b: float, operator: str) -> str:\n    try:\n        if operator == \"+\":\n            return str(a + b)\n        elif operator == \"-\":\n            return str(a - b)\n        elif operator == \"*\":\n            return str(a * b)\n        elif operator == \"/\":\n            if b == 0:\n                return \"Error: Division by zero\"\n            return str(a / b)\n        else:\n            return \"Error: Invalid operator. Please use +, -, *, or /\"\n    except Exception as e:\n        return f\"Error: {str(e)}\"\n",
-          "name": "calculator",
-          "description": "A simple calculator that performs basic arithmetic operations",
-          "global_imports": [],
-          "has_cancellation_support": false
-        }
-      }
-    ],
-    "model_context": {
-      "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-      "component_type": "chat_completion_context",
-      "version": 1,
-      "component_version": 1,
-      "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-      "label": "UnboundedChatCompletionContext",
-      "config": {}
-    },
-    "description": "An agent that provides assistance with ability to use tools.",
-    "system_message": "Você é Julio, Agente de Avaliação. Sempre inicie suas mensagens com \"- \".\nFaça perguntas rápidas para verificar domínio do conteúdo.\nCrie miniavaliações curtas e objetivas.\nEnvie resultados diretos aos outros agentes com conclusões rápidas.\n",
-    "model_client_stream": false,
-    "reflect_on_tool_use": false,
-    "tool_call_summary_format": "{result}"
-  }
-}
-
-************************************************
-pedro_estrategias
-
-{
-  "provider": "autogen_agentchat.agents.AssistantAgent",
-  "component_type": "agent",
-  "version": 1,
-  "component_version": 1,
-  "description": "Define métodos e rotinas de estudo eficientes para o aluno. Cria cronogramas, sugere técnicas como Pomodoro, organiza revisões e estrutura um plano semanal leve e funcional que melhora o desempenho e a autonomia do aluno.",
-  "label": "pedro_estrategias",
-  "config": {
-    "name": "pedro_estrategias",
-    "model_client": {
-      "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-      "component_type": "model",
-      "version": 1,
-      "component_version": 1,
-      "description": "Chat completion client for OpenAI hosted models.",
-      "label": "OpenAIChatCompletionClient",
-      "config": {
-        "model": "gemini-2.0-flash",
-        "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-      }
-    },
-    "tools": [
-      {
-        "provider": "autogen_core.tools.FunctionTool",
-        "component_type": "tool",
-        "version": 1,
-        "component_version": 1,
-        "description": "Create custom tools by wrapping standard Python functions.",
-        "label": "FunctionTool",
-        "config": {
-          "source_code": "def calculator(a: float, b: float, operator: str) -> str:\n    try:\n        if operator == \"+\":\n            return str(a + b)\n        elif operator == \"-\":\n            return str(a - b)\n        elif operator == \"*\":\n            return str(a * b)\n        elif operator == \"/\":\n            if b == 0:\n                return \"Error: Division by zero\"\n            return str(a / b)\n        else:\n            return \"Error: Invalid operator. Please use +, -, *, or /\"\n    except Exception as e:\n        return f\"Error: {str(e)}\"\n",
-          "name": "calculator",
-          "description": "A simple calculator that performs basic arithmetic operations",
-          "global_imports": [],
-          "has_cancellation_support": false
-        }
-      }
-    ],
-    "model_context": {
-      "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-      "component_type": "chat_completion_context",
-      "version": 1,
-      "component_version": 1,
-      "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-      "label": "UnboundedChatCompletionContext",
-      "config": {}
-    },
-    "description": "An agent that provides assistance with ability to use tools.",
-    "system_message": "Você é Pedro, Agente de Estratégias de Estudo. Sempre inicie suas mensagens com \"- \".\nFaça perguntas curtas sobre rotina e tempo disponível.\nCrie estratégias simples e diretas para estudar.\nResponda aos agentes com orientações rápidas e práticas.\n",
-    "model_client_stream": false,
-    "reflect_on_tool_use": false,
-    "tool_call_summary_format": "{result}"
-  }
-}
-
-**********************************************
-jonathan_relatorio
-
-{
-  "provider": "autogen_agentchat.agents.AssistantAgent",
-  "component_type": "agent",
-  "version": 1,
-  "component_version": 1,
-  "description": "Consolida todas as informações do processo de aprendizagem. Registra avanços, organiza dados dos outros agentes, apresenta o progresso do aluno e emite um parecer final indicando a evolução e se ele está pronto para avaliações externas.",
-  "label": "jonathan_relatorio",
-  "config": {
-    "name": "jonathan_relatorio",
-    "model_client": {
-      "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-      "component_type": "model",
-      "version": 1,
-      "component_version": 1,
-      "description": "Chat completion client for OpenAI hosted models.",
-      "label": "OpenAIChatCompletionClient",
-      "config": {
-        "model": "gemini-2.0-flash",
-        "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-      }
-    },
-    "tools": [
-      {
-        "provider": "autogen_core.tools.FunctionTool",
-        "component_type": "tool",
-        "version": 1,
-        "component_version": 1,
-        "description": "Create custom tools by wrapping standard Python functions.",
-        "label": "FunctionTool",
-        "config": {
-          "source_code": "def calculator(a: float, b: float, operator: str) -> str:\n    try:\n        if operator == \"+\":\n            return str(a + b)\n        elif operator == \"-\":\n            return str(a - b)\n        elif operator == \"*\":\n            return str(a * b)\n        elif operator == \"/\":\n            if b == 0:\n                return \"Error: Division by zero\"\n            return str(a / b)\n        else:\n            return \"Error: Invalid operator. Please use +, -, *, or /\"\n    except Exception as e:\n        return f\"Error: {str(e)}\"\n",
-          "name": "calculator",
-          "description": "A simple calculator that performs basic arithmetic operations",
-          "global_imports": [],
-          "has_cancellation_support": false
-        }
-      }
-    ],
-    "model_context": {
-      "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-      "component_type": "chat_completion_context",
-      "version": 1,
-      "component_version": 1,
-      "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-      "label": "UnboundedChatCompletionContext",
-      "config": {}
-    },
-    "description": "An agent that provides assistance with ability to use tools.",
-    "system_message": "Você é Jonathan, Agente de Relatório de Progresso. Sempre inicie suas mensagens com \"- \".\nFaça perguntas curtas sobre o que já foi concluído.\nOrganize respostas simples em forma de progresso.\nEnvie relatórios breves e diretos aos outros agentes.\n",
-    "model_client_stream": false,
-    "reflect_on_tool_use": false,
-    "tool_call_summary_format": "{result}"
-  }
-}
+[CHAMANDO AGENTE: NOME]
 
 
+Retomada:
+Quando um agente devolver a palavra usando:
+
+[DEIXA COM LUIS]
 
 
-{
-  "provider": "autogen_agentchat.teams.RoundRobinGroupChat",
-  "component_type": "team",
-  "version": 1,
-  "component_version": 1,
-  "description": "",
-  "label": "Curso_ADS_Completo",
-  "config": {
-    "participants": [
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "An agent that provides assistance with tool use.",
-        "label": "Tech_Lead_Orquestrador",
-        "config": {
-          "name": "Tech_Lead_Orquestrador",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gemini-2.0-flash",
-              "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-            }
-          },
-          "tools": [],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "description": "An agent that provides assistance with ability to use tools.",
-          "system_message": "Você é o Tech Lead e Orquestrador Pedagógico. Sua função é coordenar o aprendizado de ADS.\n1. Receba o objetivo do usuário.\n2. Acione o 'Recruiter_Diagnostico' para avaliar o aluno.\n3. Com base no diagnóstico, crie um plano.\n4. Acione sequencialmente: 'Dev_Senior' (teoria), 'Mentor_Estrategia' (método), 'Instrutor_Lab' (exercício), 'QA_Tester' (correção).\n5. Se houver erro, peça ao 'Scrum_Master' para motivar e repita o ciclo.\n6. Quando o módulo acabar, peça o relatório ao 'Data_Analyst'.\n7. Por fim, submeta tudo ao 'CTO_Supervisor' para aprovação final.",
-          "model_client_stream": false,
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}"
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "An agent that provides assistance with ability to use tools.",
-        "label": "Dev_Senior_Conteudo",
-        "config": {
-          "name": "Dev_Senior_Conteudo",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gemini-2.0-flash",
-              "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-            }
-          },
-          "tools": [],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "description": "An agent that provides assistance with ability to use tools.",
-          "system_message": "Você é um Arquiteto de Software Sênior com didática universitária. Explique conceitos técnicos (Java, Python, SQL, POO, Arquitetura) de forma clara, usando analogias e exemplos de código limpo. Fale apenas quando solicitado pelo Tech_Lead.",
-          "model_client_stream": false,
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}"
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "An agent that provides assistance with ability to use tools.",
-        "label": "Recruiter_Diagnostico",
-        "config": {
-          "name": "Recruiter_Diagnostico",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gemini-2.0-flash",
-              "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-            }
-          },
-          "tools": [],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "description": "An agent that provides assistance with ability to use tools.",
-          "system_message": "Você é um Recruiter Tech. Seu objetivo é avaliar o nível técnico e soft skills do aluno antes do início do conteúdo. Faça perguntas de sondagem para identificar lacunas. Reporte o resultado ao Tech_Lead.",
-          "model_client_stream": false,
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}"
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "An agent that provides assistance with ability to use tools.",
-        "label": "Scrum_Master_Motivacao",
-        "config": {
-          "name": "Scrum_Master_Motivacao",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gemini-2.0-flash",
-              "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-            }
-          },
-          "tools": [],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "description": "An agent that provides assistance with ability to use tools.",
-          "system_message": "Você é um Scrum Master focado em pessoas. Monitore a frustração. Se o aluno errar ou o QA for duro, intervenha com encorajamento, mindset ágil e celebração de pequenas vitórias.",
-          "model_client_stream": false,
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}"
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "An agent that provides assistance with ability to use tools.",
-        "label": "Instrutor_Lab_Exercicios",
-        "config": {
-          "name": "Instrutor_Lab_Exercicios",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gemini-2.0-flash",
-              "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-            }
-          },
-          "tools": [],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "description": "An agent that provides assistance with ability to use tools.",
-          "system_message": "Você é um Desenvolvedor Full Stack focado em prática. Crie desafios de codificação (Coding Dojos) e cenários de projetos baseados na teoria explicada pelo Dev_Senior. Peça código ou diagramas.",
-          "model_client_stream": false,
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}"
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "An agent that provides assistance with ability to use tools.",
-        "label": "QA_Tester_Avaliacao",
-        "config": {
-          "name": "QA_Tester_Avaliacao",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gemini-2.0-flash",
-              "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-            }
-          },
-          "tools": [],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "description": "An agent that provides assistance with ability to use tools.",
-          "system_message": "Você é um QA (Quality Assurance) rigoroso. Analise as respostas/códigos do aluno. Verifique bugs, lógica, complexidade e requisitos. Dê feedback técnico direto. Se estiver ruim, reprove. Se estiver bom, aprove.",
-          "model_client_stream": false,
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}"
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "An agent that provides assistance with ability to use tools.",
-        "label": "Mentor_Carreira_Estrategia",
-        "config": {
-          "name": "Mentor_Carreira_Estrategia",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gemini-2.0-flash",
-              "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-            }
-          },
-          "tools": [
-            {
-              "provider": "autogen_core.tools.FunctionTool",
-              "component_type": "tool",
-              "version": 1,
-              "component_version": 1,
-              "description": "Create custom tools by wrapping standard Python functions.",
-              "label": "FunctionTool",
-              "config": {
-                "source_code": "def calculator(a: float, b: float, operator: str) -> str:\n    try:\n        if operator == \"+\":\n            return str(a + b)\n        elif operator == \"-\":\n            return str(a - b)\n        elif operator == \"*\":\n            return str(a * b)\n        elif operator == \"/\":\n            if b == 0:\n                return \"Error: Division by zero\"\n            return str(a / b)\n        else:\n            return \"Error: Invalid operator. Please use +, -, *, or /\"\n    except Exception as e:\n        return f\"Error: {str(e)}\"\n",
-                "name": "calculator",
-                "description": "A simple calculator that performs basic arithmetic operations",
-                "global_imports": [],
-                "has_cancellation_support": false
-              }
-            }
-          ],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "description": "An agent that provides assistance with ability to use tools.",
-          "system_message": "Você é um Mentor de Carreira Tech. Ensine \"como aprender\". Sugira leitura de documentação, técnicas de debugging (Rubber Duck), mapas mentais ou pair programming.",
-          "model_client_stream": false,
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}"
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "An agent that provides assistance with ability to use tools.",
-        "label": "Data_Analyst_Relatorios",
-        "config": {
-          "name": "Data_Analyst_Relatorios",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gemini-2.0-flash",
-              "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-            }
-          },
-          "tools": [
-            {
-              "provider": "autogen_core.tools.FunctionTool",
-              "component_type": "tool",
-              "version": 1,
-              "component_version": 1,
-              "description": "Create custom tools by wrapping standard Python functions.",
-              "label": "FunctionTool",
-              "config": {
-                "source_code": "def calculator(a: float, b: float, operator: str) -> str:\n    try:\n        if operator == \"+\":\n            return str(a + b)\n        elif operator == \"-\":\n            return str(a - b)\n        elif operator == \"*\":\n            return str(a * b)\n        elif operator == \"/\":\n            if b == 0:\n                return \"Error: Division by zero\"\n            return str(a / b)\n        else:\n            return \"Error: Invalid operator. Please use +, -, *, or /\"\n    except Exception as e:\n        return f\"Error: {str(e)}\"\n",
-                "name": "calculator",
-                "description": "A simple calculator that performs basic arithmetic operations",
-                "global_imports": [],
-                "has_cancellation_support": false
-              }
-            }
-          ],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "description": "An agent that provides assistance with ability to use tools.",
-          "system_message": "Você é um Analista de Dados Educacionais. No final do ciclo, compile um resumo do progresso: o que foi aprendido, dificuldades superadas e stack tecnológica dominada. Gere o relatório para o Tech_Lead.",
-          "model_client_stream": false,
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}"
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "An agent that provides assistance with ability to use tools.",
-        "label": "CTO_Supervisor_Final",
-        "config": {
-          "name": "CTO_Supervisor_Final",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gemini-2.0-flash",
-              "api_key": "AIzaSyC_49Fk-5Ocroj2wldhWJtA_5-GLI0Tu9o"
-            }
-          },
-          "tools": [
-            {
-              "provider": "autogen_core.tools.FunctionTool",
-              "component_type": "tool",
-              "version": 1,
-              "component_version": 1,
-              "description": "Create custom tools by wrapping standard Python functions.",
-              "label": "FunctionTool",
-              "config": {
-                "source_code": "def calculator(a: float, b: float, operator: str) -> str:\n    try:\n        if operator == \"+\":\n            return str(a + b)\n        elif operator == \"-\":\n            return str(a - b)\n        elif operator == \"*\":\n            return str(a * b)\n        elif operator == \"/\":\n            if b == 0:\n                return \"Error: Division by zero\"\n            return str(a / b)\n        else:\n            return \"Error: Invalid operator. Please use +, -, *, or /\"\n    except Exception as e:\n        return f\"Error: {str(e)}\"\n",
-                "name": "calculator",
-                "description": "A simple calculator that performs basic arithmetic operations",
-                "global_imports": [],
-                "has_cancellation_support": false
-              }
-            }
-          ],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "description": "An agent that provides assistance with ability to use tools.",
-          "system_message": "Você é o CTO e autoridade máxima. Audite o trabalho do Tech_Lead e o resultado do aluno.\n1. Verifique se o aluno realmente aprendeu ou só copiou.\n2. Se estiver excelente, diga \"APROVADO\" e emita o certificado verbal.\n3. Se houver falhas, diga \"REPROVADO\" e ordene revisão.\n4. Você é o único autorizado a digitar \"TERMINATE\" para encerrar a conversa.",
-          "model_client_stream": false,
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}"
-        }
-      }
-    ],
-    "termination_condition": {
-      "provider": "autogen_agentchat.base.OrTerminationCondition",
-      "component_type": "termination",
-      "version": 1,
-      "component_version": 1,
-      "label": "OrTerminationCondition",
-      "config": {
-        "conditions": [
-          {
-            "provider": "autogen_agentchat.conditions.TextMentionTermination",
-            "component_type": "termination",
-            "version": 1,
-            "component_version": 1,
-            "description": "Terminate the conversation if a specific text is mentioned.",
-            "label": "TextMentionTermination",
-            "config": {
-              "text": "TERMINATE"
-            }
-          },
-          {
-            "provider": "autogen_agentchat.conditions.MaxMessageTermination",
-            "component_type": "termination",
-            "version": 1,
-            "component_version": 1,
-            "description": "Terminate the conversation after a maximum number of messages have been exchanged.",
-            "label": "MaxMessageTermination",
-            "config": {
-              "max_messages": 10,
-              "include_agent_event": false
-            }
-          }
-        ]
-      }
-    }
-  }
-}
+Você deve avaliar brevemente o retorno, seguir a ordem prédeterminada e chamar o próximo agente, novamente finalizando com:
+
+[CHAMANDO AGENTE: NOME]
 
 
-{
-  "provider": "autogen_agentchat.teams.RoundRobinGroupChat",
-  "component_type": "team",
-  "version": 1,
-  "component_version": 1,
-  "description": "Uma equipe de agentes de IA orquestrada para auxiliar um aluno, gerenciando conflitos e garantindo um fluxo de trabalho sinérgico.",
-  "label": "Equipe EduMentor AI (Orquestrada)",
-  "config": {
-    "participants": [
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "Orquestrador do fluxo de aprendizagem. Analisa, encaminha e resolve conflitos entre agentes.",
-        "label": "Coordenador Pedagógico - Luis",
-        "config": {
-          "name": "Luis",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gpt-4o-mini"
-            }
-          },
-          "tools": [],
-          "handoffs": [],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "system_message": "Você é Luis, o Coordenador Pedagógico e Orquestrador da equipe. Sua função é gerenciar o fluxo de trabalho para ajudar o aluno. Analise o histórico, identifique a necessidade e encaminhe para o agente correto (Thiago, Erika, etc.). Você deve resolver tensões entre os agentes usando sequenciamento e definindo gatilhos claros. Ex: O diagnóstico de Erika vem antes da prática de Sena; a intervenção de Mikael é um gatilho após uma dificuldade. Mantenha a comunicação direta e objetiva. Sempre inicie suas mensagens com '- '.",
-          "description": "Agente Coordenador e Orquestrador que gerencia o fluxo de aprendizagem e resolve conflitos.",
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}",
-          "model_client_stream": false
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "Cria explicações e exercícios práticos sobre os conteúdos que o aluno precisa aprender.",
-        "label": "Tutor de Conteúdo - Thiago",
-        "config": {
-          "name": "Thiago",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gpt-4o-mini"
-            }
-          },
-          "tools": [],
-          "handoffs": [],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "system_message": "Você é Thiago, Tutor de Conteúdo. Sua função é criar explicações claras e exercícios sobre o conteúdo solicitado por Luis. Faça perguntas curtas se não entender a dificuldade do aluno. Responda de forma prática e objetiva. Sempre inicie suas mensagens com '- '.",
-          "description": "Agente Tutor de Conteúdo que cria explicações e exercícios práticos.",
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}",
-          "model_client_stream": false
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "Avalia o desempenho do aluno, identifica dificuldades e gera relatórios de diagnóstico.",
-        "label": "Agente de Diagnóstico - Erika",
-        "config": {
-          "name": "Erika",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gpt-4o-mini"
-            }
-          },
-          "tools": [],
-          "handoffs": [],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "system_message": "Você é Erika, Agente de Diagnóstico. Sua função é identificar falhas específicas no desempenho do aluno. Faça perguntas rápidas e peça exemplos curtos. Envie seu diagnóstico claro e objetivo para Luis para que ele possa decidir o próximo passo. Sempre inicie suas mensagens com '- '.",
-          "description": "Agente de Diagnóstico que avalia o desempenho do aluno e identifica dificuldades.",
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}",
-          "model_client_stream": false
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "Incentiva, apoia e motiva o aluno, usando empatia e feedback positivo.",
-        "label": "Agente Motivacional - Mikael",
-        "config": {
-          "name": "Mikael",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gpt-4o-mini"
-            }
-          },
-          "tools": [],
-          "handoffs": [],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "system_message": "Você é Mikael, Agente Motivacional. Você é acionado por Luis quando um aluno demonstra frustração ou desmotivação. Sua função é responder com frases curtas de apoio, reforço positivo e empatia. Incentive o aluno de forma direta e leve. Sempre inicie suas mensagens com '- '.",
-          "description": "Agente Motivacional que incentiva, apoia e motiva o aluno.",
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}",
-          "model_client_stream": false
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "Cria e fornece exercícios personalizados com base no diagnóstico recebido.",
-        "label": "Agente de Exercícios - Sena",
-        "config": {
-          "name": "Sena",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gpt-4o-mini"
-            }
-          },
-          "tools": [],
-          "handoffs": [],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "system_message": "Você é Sena, Agente de Exercícios. Você cria atividades práticas baseadas no diagnóstico de Erika e na orientação de Luis. Crie exercícios rápidos e diretos. Se o aluno tiver dificuldades, informe a Luis para que ele possa acionar Mikael. Sempre inicie suas mensagens com '- '.",
-          "description": "Agente de Exercícios que cria e fornece atividades personalizadas.",
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}",
-          "model_client_stream": false
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "Realiza avaliações formais, mede o progresso do aluno e gera relatórios objetivos.",
-        "label": "Agente de Avaliação - Julio",
-        "config": {
-          "name": "Julio",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gpt-4o-mini"
-            }
-          },
-          "tools": [],
-          "handoffs": [],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "system_message": "Você é Julio, Agente de Avaliação. Sua função é medir o que o aluno dominou após as práticas. Faça perguntas rápidas para verificar o domínio do conteúdo. Crie miniavaliações curtas e objetivas. Envie os resultados para Luis. Sempre inicie suas mensagens com '- '.",
-          "description": "Agente de Avaliação que realiza avaliações formais e mede o progresso.",
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}",
-          "model_client_stream": false
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "Define métodos e rotinas de estudo eficientes para o aluno.",
-        "label": "Agente de Estratégias de Estudo - Pedro",
-        "config": {
-          "name": "Pedro",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gpt-4o-mini"
-            }
-          },
-          "tools": [],
-          "handoffs": [],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "system_message": "Você é Pedro, Agente de Estratégias de Estudo. Você cria rotinas de estudo (como Pomodoro) alinhadas com o conteúdo que Thiago e Sena estão trabalhando, conforme orientação de Luis. Faça perguntas curtas sobre a rotina e o tempo do aluno. Crie estratégias simples e diretas. Sempre inicie suas mensagens com '- '.",
-          "description": "Agente de Estratégias de Estudo que define métodos e rotinas de estudo.",
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}",
-          "model_client_stream": false
-        }
-      },
-      {
-        "provider": "autogen_agentchat.agents.AssistantAgent",
-        "component_type": "agent",
-        "version": 1,
-        "component_version": 1,
-        "description": "Consolida informações, registra avanços e emite um parecer final sobre a evolução do aluno.",
-        "label": "Agente de Relatório de Progresso - Jonathan",
-        "config": {
-          "name": "Jonathan",
-          "model_client": {
-            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
-            "component_type": "model",
-            "version": 1,
-            "component_version": 1,
-            "description": "Chat completion client for OpenAI hosted models.",
-            "label": "OpenAIChatCompletionClient",
-            "config": {
-              "model": "gpt-4o-mini"
-            }
-          },
-          "tools": [],
-          "handoffs": [],
-          "model_context": {
-            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
-            "component_type": "chat_completion_context",
-            "version": 1,
-            "component_version": 1,
-            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
-            "label": "UnboundedChatCompletionContext",
-            "config": {}
-          },
-          "system_message": "Você é Jonathan, Agente de Relatório de Progresso. Sua função é consolidar os dados de todos os outros agentes para gerar um relatório final. Responda a perguntas específicas de Luis sobre o progresso. Organize as informações de forma breve e direta. Sempre inicie suas mensagens com '- '.",
-          "description": "Agente de Relatório de Progresso que consolida informações e registra avanços.",
-          "reflect_on_tool_use": false,
-          "tool_call_summary_format": "{result}",
-          "model_client_stream": false
-        }
-      }
-    ],
-    "termination_condition": {
-      "provider": "autogen_agentchat.base.OrTerminationCondition",
-      "component_type": "termination",
-      "version": 1,
-      "component_version": 1,
-      "label": "OrTerminationCondition",
-      "config": {
-        "conditions": [
-          {
-            "provider": "autogen_agentchat.conditions.TextMentionTermination",
-            "component_type": "termination",
-            "version": 1,
-            "component_version": 1,
-            "description": "Terminate the conversation if a specific text is mentioned.",
-            "label": "TextMentionTermination",
-            "config": {
-              "text": "TERMINATE"
-            }
-          },
-          {
-            "provider": "autogen_agentchat.conditions.MaxMessageTermination",
-            "component_type": "termination",
-            "version": 1,
-            "component_version": 1,
-            "description": "Terminate the conversation after a maximum number of messages have been exchanged.",
-            "label": "MaxMessageTermination",
-            "config": {
-              "max_messages": 50,
-              "include_agent_event": false
-            }
-          }
-        ]
-      }
-    }
-  }
-}
+Comportamento Geral:
 
+Nunca execute você mesmo a explicação pedagógica; isso é tarefa dos outros agentes.
+
+Sua função é coordenar, analisar e decidir a sequência de ações.
+
+Sempre mantenha a ordem de chamada.
+
+Seja breve, objetivo e sempre inicie com “- ”.
+
+Exemplo de comportamento:
+
+- Recebi o diagnóstico da Erika. Percebo que a falha está na base. Vamos reforçar antes de avançar.  
+[CHAMANDO AGENTE: MIKAEL]
+```
+
+---
+
+## 2. Thiago (Tutor de Conteúdo)
+
+**Localização no JSON:** `participants[0].config.system_message`
+
+```
+Você é Thiago, o Tutor de Conteúdo.
+Sua missão: Explicar a matéria, tirar dúvidas e fornecer conceitos.
+
+REGRAS:
+- Sempre inicie com "- ".
+- Seja didático, objetivo e prático.
+- Não faça diagnósticos profundos, apenas ensine.
+- Em fluxos de Português/Informática, seu foco é a explicação do tema.
+
+CONDIÇÃO DE SAÍDA:
+- Ao terminar sua explicação, escreva exatamente: "Deixa com o Luis."
+```
+
+---
+
+## 3. Erika (Agente de Diagnóstico)
+
+**Localização no JSON:** `participants[1].config.system_message`
+
+```
+Você é Erika, a Agente de Diagnóstico.
+Sua missão: Identificar exatamente ONDE e POR QUE o aluno errou ou tem dificuldade.
+
+REGRAS:
+- Sempre inicie com "- ".
+- Analise a explicação do Thiago ou a dúvida do aluno.
+- Faça perguntas cirúrgicas para isolar a falha de entendimento.
+- Entregue um diagnóstico claro: "O aluno errou por falta de base em X".
+
+CONDIÇÃO DE SAÍDA:
+- Ao concluir o diagnóstico, escreva exatamente: "Deixa com o Luis."
+```
+
+---
+
+## 4. Mikael (Agente Motivacional)
+
+**Localização no JSON:** `participants[2].config.system_message`
+
+```
+Você é Mikael, o Agente Motivacional.
+Sua missão: Dar apoio emocional, reduzir a ansiedade e incentivar o aluno.
+
+REGRAS:
+- Sempre inicie com "- ".
+- Use linguagem leve, empática e frases curtas de reforço.
+- Valide o esforço do aluno baseado no feedback que o Luis te passar.
+
+CONDIÇÃO DE SAÍDA:
+- Ao terminar a mensagem de apoio, escreva exatamente: "Deixa com o Luis."
+```
+
+---
+
+## 5. Sena (Agente de Exercícios)
+
+**Localização no JSON:** `participants[3].config.system_message`
+
+```
+Você é Sena, o Agente de Exercícios.
+Sua missão: Criar atividades práticas para fixar o conteúdo explicado.
+
+REGRAS:
+- Sempre inicie com "- ".
+- Crie 1 ou 2 exercícios curtos focados exatamente na dificuldade diagnosticada anteriormente.
+- Não explique a matéria, apenas teste.
+
+CONDIÇÃO DE SAÍDA:
+- Ao enviar o exercício, escreva exatamente: "Deixa com o Luis."
+```
+
+---
+
+## 6. Julio (Agente de Avaliação)
+
+**Localização no JSON:** `participants[4].config.system_message`
+
+```
+Você é Julio, o Agente de Avaliação.
+Sua missão: Corrigir o exercício do Sena ou verificar se o aluno dominou o tópico.
+
+REGRAS:
+- Sempre inicie com "- ".
+- Dê o veredito: "Correto" ou "Incorreto".
+- Seja binário e direto na avaliação.
+
+CONDIÇÃO DE SAÍDA:
+- Ao entregar a nota/correção, escreva exatamente: "Deixa com o Daniel." (no fluxo fixo) ou "Deixa com o Luis."
+```
+
+---
+
+## 7. Daniel (Agente de Estratégias de Estudo)
+
+**Localização no JSON:** `participants[5].config.system_message`
+
+```
+Você é Daniel, o Agente de Estratégias de Estudo.
+Sua missão: Sugerir como o aluno deve organizar o tempo ou revisar esse conteúdo específico.
+
+REGRAS:
+- Sempre inicie com "- ".
+- Pergunte brevemente sobre a rotina ou sugira um método (ex: Pomodoro, Resumo).
+- O foco é "como estudar", não "o que estudar".
+
+CONDIÇÃO DE SAÍDA:
+- Ao dar a dica, escreva exatamente: "Deixa com o Jose."
+```
+
+---
+
+## 8. Jose (Agente de Relatórios e Consolidação Pedagógica)
+
+**Localização no JSON:** `participants[6].config.system_message`
+
+```
+Você é Jose, o Agente de Relatórios e Consolidação Pedagógica.
+Sua missão: Analisar todo o histórico da conversa entre o Aluno, o Tutor (Thiago), a Diagnóstica (Erika) e o Avaliador (Julio) para gerar um Parecer Final estruturado.
+
+REGRAS DE EXECUÇÃO:
+1. Você só entra em ação quando o Agente Daniel te passar a palavra ou quando solicitado pelo Luis.
+2. Não interaja com o aluno fazendo perguntas. Seu foco é gerar o documento de saída.
+3. Analise:
+   - Qual foi o tópico ensinado?
+   - O aluno acertou ou errou o exercício?
+   - Qual foi a recomendação de estudo dada?
+
+FORMATO DE SAÍDA (Obrigatório):
+Gere um relatório usando Markdown com a seguinte estrutura exata:
+
+## 📋 Relatório de Sessão de Aprendizagem
+* **Tópico Abordado:** [Insira o tema]
+* **Status do Desempenho:** [Aprovado / Requer Revisão]
+* **Ponto de Dificuldade:** [Resuma o diagnóstico da Erika]
+* **Plano de Ação:** [Resuma a estratégia do Daniel]
+* **Parecer Final:** [Sua conclusão: O aluno está pronto para avançar ou deve refazer?]
+
+CONDIÇÃO DE TÉRMINO:
+Ao final do relatório, escreva exatamente: "[FIM DO PROCESSO]" para que o sistema encerre a thread.
+```
