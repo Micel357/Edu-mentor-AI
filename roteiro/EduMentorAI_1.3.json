@@ -1,0 +1,357 @@
+{
+  "provider": "autogen_agentchat.teams.RoundRobinGroupChat",
+  "component_type": "team",
+  "version": 1,
+  "component_version": 1,
+  "description": "Você é Luis, o Coordenador Pedagógico e orquestrador deste grupo de estudos dentro do Autogen Studio. Sua função é gerenciar o fluxo de aprendizado, analisar as respostas dos outros agentes e decidir sempre o próximo passo. Todas as suas mensagens devem começar com “- ” e seu estilo deve ser direto e objetivo.\n\nAnálise Inicial:\nAo receber a demanda do aluno, analise o perfil, identifique o tema e defina o plano de estudo inicial.\n\nRegra de Fluxo (Português/Informática):\nSe o assunto for Português ou Informática, siga rigorosamente a sequência abaixo, chamando apenas um agente por vez e aguardando a resposta antes de chamar o próximo:\n\nChame Thiago → (Aguarde o retorno) →\nChame Erika → (Analise o retorno dela) →\nChame Mikael → (Aguarde o retorno) →\n(Analise o status geral) →\nChame Sena → (Aguarde o retorno) →\nChame Julio → (Aguarde o retorno) →\nChame Daniel → (Aguarde o retorno) →\nChame José.\n\nDelegação:\nPara chamar um agente, sempre finalize sua fala com a seguinte marcação:\n\n[CHAMANDO AGENTE: NOME]\n\n\nRetomada:\nQuando um agente devolver a palavra usando:\n\n[DEIXA COM LUIS]\n\n\nVocê deve avaliar brevemente o retorno, seguir a ordem prédeterminada e chamar o próximo agente, novamente finalizando com:\n\n[CHAMANDO AGENTE: NOME]\n\n\nComportamento Geral:\n\nNunca execute você mesmo a explicação pedagógica; isso é tarefa dos outros agentes.\n\nSua função é coordenar, analisar e decidir a sequência de ações.\n\nSempre mantenha a ordem de chamada.\n\nSeja breve, objetivo e sempre inicie com “- ”.\n\nExemplo de comportamento:\n\n- Recebi o diagnóstico da Erika. Percebo que a falha está na base. Vamos reforçar antes de avançar.  \n[CHAMANDO AGENTE: MIKAEL]",
+  "label": "luis_coordenador",
+  "config": {
+    "participants": [
+      {
+        "provider": "autogen_agentchat.agents.AssistantAgent",
+        "component_type": "agent",
+        "version": 1,
+        "component_version": 1,
+        "description": "Agente tutor especializado em explicações claras, exercícios e atividades práticas de Português e Informática básica.",
+        "label": "thiago_tutor_agent",
+        "config": {
+          "name": "thiago_tutor",
+          "model_client": {
+            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
+            "component_type": "model",
+            "version": 1,
+            "component_version": 1,
+            "description": "Agente tutor especializado em explicações claras, exercícios e atividades práticas de Português e Informática básica.",
+            "label": "thiago_tutor_model",
+            "config": {
+              "temperature": 0.4,
+              "top_p": 0.8,
+              "max_tokens": 1500,
+              "max_retries": 3,
+              "timeout": 120,
+              "model": "gemini-2.0-flash",
+              "api_key": "AIzaSyDiAYmYDoUtBavJeM1k3L7qxZ9rL20w7Lo"
+            }
+          },
+          "tools": [],
+          "model_context": {
+            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
+            "component_type": "chat_completion_context",
+            "version": 1,
+            "component_version": 1,
+            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
+            "label": "UnboundedChatCompletionContext",
+            "config": {}
+          },
+          "description": "An agent that provides assistance with ability to use tools.",
+          "system_message": "Você é Thiago, o Tutor de Conteúdo.\nSua missão: Explicar a matéria, tirar dúvidas e fornecer conceitos.\n\nREGRAS:\n- Sempre inicie com \"- \".\n- Seja didático, objetivo e prático.\n- Não faça diagnósticos profundos, apenas ensine.\n- Em fluxos de Português/Informática, seu foco é a explicação do tema.\n\nCONDIÇÃO DE SAÍDA:\n- Ao terminar sua explicação, escreva exatamente: \"Deixa com o Luis.\"",
+          "model_client_stream": true,
+          "reflect_on_tool_use": false,
+          "tool_call_summary_format": "{result}"
+        }
+      },
+      {
+        "provider": "autogen_agentchat.agents.AssistantAgent",
+        "component_type": "agent",
+        "version": 1,
+        "component_version": 1,
+        "description": "Avalia o desempenho do aluno por meio de testes práticos e atividades específicas. Analisa erros, identifica dificuldades em pontuação e informática básica e gera relatórios diagnósticos detalhados que orientam os próximos passos do processo educativo.",
+        "label": "erika_diagnostico",
+        "config": {
+          "name": "erika_diagnostico",
+          "model_client": {
+            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
+            "component_type": "model",
+            "version": 1,
+            "component_version": 1,
+            "description": "Avalia o desempenho do aluno por meio de testes práticos e atividades específicas. Analisa erros, identifica dificuldades em pontuação e informática básica e gera relatórios diagnósticos detalhados que orientam os próximos passos do processo educativo.",
+            "label": "erika_diagnostico",
+            "config": {
+              "model": "gemini-2.0-flash",
+              "api_key": "AIzaSyDiAYmYDoUtBavJeM1k3L7qxZ9rL20w7Lo",
+              "temperature": 0.5,
+              "top_p": 0.9,
+              "max_tokens": 800,
+              "max_retries": 3,
+              "timeout": 120,
+              "frequency_penalty": null,
+              "presence_penalty": null
+            }
+          },
+          "tools": [],
+          "model_context": {
+            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
+            "component_type": "chat_completion_context",
+            "version": 1,
+            "component_version": 1,
+            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
+            "label": "UnboundedChatCompletionContext",
+            "config": {}
+          },
+          "description": "An agent that provides assistance with ability to use tools.",
+          "system_message": "Você é Erika, a Agente de Diagnóstico.\nSua missão: Identificar exatamente ONDE e POR QUE o aluno errou ou tem dificuldade.\n\nREGRAS:\n- Sempre inicie com \"- \".\n- Analise a explicação do Thiago ou a dúvida do aluno.\n- Faça perguntas cirúrgicas para isolar a falha de entendimento.\n- Entregue um diagnóstico claro: \"O aluno errou por falta de base em X\".\n\nCONDIÇÃO DE SAÍDA:\n- Ao concluir o diagnóstico, escreva exatamente: \"Deixa com o Luis.\"",
+          "model_client_stream": true,
+          "reflect_on_tool_use": false,
+          "tool_call_summary_format": "{result}"
+        }
+      },
+      {
+        "provider": "autogen_agentchat.agents.AssistantAgent",
+        "component_type": "agent",
+        "version": 1,
+        "component_version": 1,
+        "description": "Age para incentivar, apoiar e motivar o aluno. Usa empatia, comunicação simples e feedback positivo para reduzir ansiedade, aumentar engajamento e reforçar conquistas. Reacende a motivação e prepara emocionalmente o aluno para continuar aprendendo.",
+        "label": "mikael_motivacional",
+        "config": {
+          "name": "mikael_motivacional",
+          "model_client": {
+            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
+            "component_type": "model",
+            "version": 1,
+            "component_version": 1,
+            "description": "Você é Mikael, Agente Motivacional. Sempre inicie suas mensagens com \"- \".\nFaça perguntas simples para entender como o aluno está se sentindo.\nResponda com frases curtas de apoio e reforço positivo.\nIncentive o aluno de forma direta e leve.\n",
+            "label": "OpenAIChatCompletionClient",
+            "config": {
+              "model": "gemini-2.0-flash",
+              "api_key": "AIzaSyDiAYmYDoUtBavJeM1k3L7qxZ9rL20w7Lo",
+              "temperature": 0.8,
+              "max_tokens": 600,
+              "top_p": 0.95,
+              "presence_penalty": null,
+              "max_retries": 3,
+              "timeout": 120,
+              "frequency_penalty": null
+            }
+          },
+          "tools": [],
+          "model_context": {
+            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
+            "component_type": "chat_completion_context",
+            "version": 1,
+            "component_version": 1,
+            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
+            "label": "UnboundedChatCompletionContext",
+            "config": {}
+          },
+          "description": "An agent that provides assistance with ability to use tools.",
+          "system_message": "Você é Mikael, o Agente Motivacional.\nSua missão: Dar apoio emocional, reduzir a ansiedade e incentivar o aluno.\n\nREGRAS:\n- Sempre inicie com \"- \".\n- Use linguagem leve, empática e frases curtas de reforço.\n- Valide o esforço do aluno baseado no feedback que o Luis te passar.\n\nCONDIÇÃO DE SAÍDA:\n- Ao terminar a mensagem de apoio, escreva exatamente: \"Deixa com o Luis.\"",
+          "model_client_stream": true,
+          "reflect_on_tool_use": false,
+          "tool_call_summary_format": "{result}"
+        }
+      },
+      {
+        "provider": "autogen_agentchat.agents.AssistantAgent",
+        "component_type": "agent",
+        "version": 1,
+        "component_version": 1,
+        "description": "Cria, organiza e fornece exercícios personalizados com base no diagnóstico recebido. Desenvolve atividades práticas de escrita, pontuação e informática, promovendo a fixação do conteúdo e fortalecendo as habilidades do aluno de maneira progressiva.",
+        "label": "sena_exercicios",
+        "config": {
+          "name": "sena_exercicios",
+          "model_client": {
+            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
+            "component_type": "model",
+            "version": 1,
+            "component_version": 1,
+            "description": "Cria, organiza e fornece exercícios personalizados com base no diagnóstico recebido. Desenvolve atividades práticas de escrita, pontuação e informática, promovendo a fixação do conteúdo e fortalecendo as habilidades do aluno de maneira progressiva.",
+            "label": "sena_exercicios",
+            "config": {
+              "model": "gemini-2.0-flash",
+              "api_key": "AIzaSyDiAYmYDoUtBavJeM1k3L7qxZ9rL20w7Lo",
+              "temperature": 0.4,
+              "max_tokens": 1000,
+              "top_p": 0.8,
+              "frequency_penalty": null,
+              "presence_penalty": null,
+              "max_retries": 3,
+              "timeout": 120
+            }
+          },
+          "tools": [],
+          "model_context": {
+            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
+            "component_type": "chat_completion_context",
+            "version": 1,
+            "component_version": 1,
+            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
+            "label": "UnboundedChatCompletionContext",
+            "config": {}
+          },
+          "description": "An agent that provides assistance with ability to use tools.",
+          "system_message": "Você é Sena, o Agente de Exercícios.\nSua missão: Criar atividades práticas para fixar o conteúdo explicado.\n\nREGRAS:\n- Sempre inicie com \"- \".\n- Crie 1 ou 2 exercícios curtos focados exatamente na dificuldade diagnosticada anteriormente.\n- Não explique a matéria, apenas teste.\n\nCONDIÇÃO DE SAÍDA:\n- Ao enviar o exercício, escreva exatamente: \"Deixa com o Luis.\"",
+          "model_client_stream": true,
+          "reflect_on_tool_use": false,
+          "tool_call_summary_format": "{result}"
+        }
+      },
+      {
+        "provider": "autogen_agentchat.agents.AssistantAgent",
+        "component_type": "agent",
+        "version": 1,
+        "component_version": 1,
+        "description": "Realiza avaliações formais e mede o progresso do aluno. Analisa o histórico, verifica domínio de habilidades e gera relatórios com resultados objetivos, destacando avanços em linguagem e informática. Indica se o aluno está pronto para novas etapas.",
+        "label": "julio_avaliacao",
+        "config": {
+          "name": "julio_avaliacao",
+          "model_client": {
+            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
+            "component_type": "model",
+            "version": 1,
+            "component_version": 1,
+            "description": "Realiza avaliações formais e mede o progresso do aluno. Analisa o histórico, verifica domínio de habilidades e gera relatórios com resultados objetivos, destacando avanços em linguagem e informática. Indica se o aluno está pronto para novas etapas.",
+            "label": "julio_avaliacao",
+            "config": {
+              "model": "gemini-2.0-flash",
+              "api_key": "AIzaSyDiAYmYDoUtBavJeM1k3L7qxZ9rL20w7Lo",
+              "temperature": 0.4,
+              "max_tokens": 1000,
+              "top_p": 0.8,
+              "frequency_penalty": null,
+              "presence_penalty": null,
+              "max_retries": 3,
+              "timeout": 120
+            }
+          },
+          "tools": [],
+          "model_context": {
+            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
+            "component_type": "chat_completion_context",
+            "version": 1,
+            "component_version": 1,
+            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
+            "label": "UnboundedChatCompletionContext",
+            "config": {}
+          },
+          "description": "An agent that provides assistance with ability to use tools.",
+          "system_message": "Você é Julio, o Agente de Avaliação.\nSua missão: Corrigir o exercício do Sena ou verificar se o aluno dominou o tópico.\n\nREGRAS:\n- Sempre inicie com \"- \".\n- Dê o veredito: \"Correto\" ou \"Incorreto\".\n- Seja binário e direto na avaliação.\n\nCONDIÇÃO DE SAÍDA:\n- Ao entregar a nota/correção, escreva exatamente: \"Deixa com o Daniel.\" (no fluxo fixo) ou \"Deixa com o Luis.\"",
+          "model_client_stream": true,
+          "reflect_on_tool_use": false,
+          "tool_call_summary_format": "{result}"
+        }
+      },
+      {
+        "provider": "autogen_agentchat.agents.AssistantAgent",
+        "component_type": "agent",
+        "version": 1,
+        "component_version": 1,
+        "description": "Define métodos e rotinas de estudo eficientes para o aluno. Cria cronogramas, sugere técnicas como Pomodoro, organiza revisões e estrutura um plano semanal leve e funcional que melhora o desempenho e a autonomia do aluno.",
+        "label": "daniel_estrategias",
+        "config": {
+          "name": "daniel_estrategias",
+          "model_client": {
+            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
+            "component_type": "model",
+            "version": 1,
+            "component_version": 1,
+            "description": "Define métodos e rotinas de estudo eficientes para o aluno. Cria cronogramas, sugere técnicas como Pomodoro, organiza revisões e estrutura um plano semanal leve e funcional que melhora o desempenho e a autonomia do aluno.",
+            "label": "daniel_estrategias",
+            "config": {
+              "model": "gemini-2.0-flash",
+              "api_key": "AIzaSyDiAYmYDoUtBavJeM1k3L7qxZ9rL20w7Lo",
+              "temperature": 0.5,
+              "max_tokens": 800,
+              "top_p": 0.9,
+              "timeout": 120,
+              "max_retries": 3
+            }
+          },
+          "tools": [],
+          "model_context": {
+            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
+            "component_type": "chat_completion_context",
+            "version": 1,
+            "component_version": 1,
+            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
+            "label": "UnboundedChatCompletionContext",
+            "config": {}
+          },
+          "description": "An agent that provides assistance with ability to use tools.",
+          "system_message": "Você é Daniel, o Agente de Estratégias de Estudo.\nSua missão: Sugerir como o aluno deve organizar o tempo ou revisar esse conteúdo específico.\n\nREGRAS:\n- Sempre inicie com \"- \".\n- Pergunte brevemente sobre a rotina ou sugira um método (ex: Pomodoro, Resumo).\n- O foco é \"como estudar\", não \"o que estudar\".\n\nCONDIÇÃO DE SAÍDA:\n- Ao dar a dica, escreva exatamente: \"Deixa com o Jose.\"",
+          "model_client_stream": true,
+          "reflect_on_tool_use": false,
+          "tool_call_summary_format": "{result}"
+        }
+      },
+      {
+        "provider": "autogen_agentchat.agents.AssistantAgent",
+        "component_type": "agent",
+        "version": 1,
+        "component_version": 1,
+        "description": "Consolida todas as informações do processo de aprendizagem. Registra avanços, organiza dados dos outros agentes, apresenta o progresso do aluno e emite um parecer final indicando a evolução e se ele está pronto para avaliações externas.",
+        "label": "jose_relatorio",
+        "config": {
+          "name": "jose_relatorio",
+          "model_client": {
+            "provider": "autogen_ext.models.openai.OpenAIChatCompletionClient",
+            "component_type": "model",
+            "version": 1,
+            "component_version": 1,
+            "description": "Consolida todas as informações do processo de aprendizagem. Registra avanços, organiza dados dos outros agentes, apresenta o progresso do aluno e emite um parecer final indicando a evolução e se ele está pronto para avaliações externas.",
+            "label": "jose_relatorio",
+            "config": {
+              "model": "gemini-2.0-flash",
+              "api_key": "AIzaSyDiAYmYDoUtBavJeM1k3L7qxZ9rL20w7Lo",
+              "temperature": 0.2,
+              "max_tokens": 1500,
+              "top_p": 0.1,
+              "frequency_penalty": null,
+              "presence_penalty": null,
+              "max_retries": 3,
+              "timeout": 120
+            }
+          },
+          "tools": [],
+          "model_context": {
+            "provider": "autogen_core.model_context.UnboundedChatCompletionContext",
+            "component_type": "chat_completion_context",
+            "version": 1,
+            "component_version": 1,
+            "description": "An unbounded chat completion context that keeps a view of the all the messages.",
+            "label": "UnboundedChatCompletionContext",
+            "config": {}
+          },
+          "description": "An agent that provides assistance with ability to use tools.",
+          "system_message": "Você é Jose, o Agente de Relatórios e Consolidação Pedagógica.\nSua missão: Analisar todo o histórico da conversa entre o Aluno, o Tutor (Thiago), a Diagnóstica (Erika) e o Avaliador (Julio) para gerar um Parecer Final estruturado.\n\nREGRAS DE EXECUÇÃO:\n1. Você só entra em ação quando o Agente Daniel te passar a palavra ou quando solicitado pelo Luis.\n2. Não interaja com o aluno fazendo perguntas. Seu foco é gerar o documento de saída.\n3. Analise:\n   - Qual foi o tópico ensinado?\n   - O aluno acertou ou errou o exercício?\n   - Qual foi a recomendação de estudo dada?\n\nFORMATO DE SAÍDA (Obrigatório):\nGere um relatório usando Markdown com a seguinte estrutura exata:\n\n## 📋 Relatório de Sessão de Aprendizagem\n* **Tópico Abordado:** [Insira o tema]\n* **Status do Desempenho:** [Aprovado / Requer Revisão]\n* **Ponto de Dificuldade:** [Resuma o diagnóstico da Erika]\n* **Plano de Ação:** [Resuma a estratégia do Daniel]\n* **Parecer Final:** [Sua conclusão: O aluno está pronto para avançar ou deve refazer?]\n\nCONDIÇÃO DE TÉRMINO:\nAo final do relatório, escreva exatamente: \"[FIM DO PROCESSO]\" para que o sistema encerre a thread.",
+          "model_client_stream": true,
+          "reflect_on_tool_use": false,
+          "tool_call_summary_format": "{result}"
+        }
+      }
+    ],
+    "termination_condition": {
+      "provider": "autogen_agentchat.base.OrTerminationCondition",
+      "component_type": "termination",
+      "version": 1,
+      "component_version": 1,
+      "label": "OrTerminationCondition",
+      "config": {
+        "conditions": [
+          {
+            "provider": "autogen_agentchat.conditions.TextMentionTermination",
+            "component_type": "termination",
+            "version": 1,
+            "component_version": 1,
+            "description": "Terminate the conversation if a specific text is mentioned.",
+            "label": "TextMentionTermination",
+            "config": {
+              "text": "FIM DO PROCESSO"
+            }
+          },
+          {
+            "provider": "autogen_agentchat.conditions.MaxMessageTermination",
+            "component_type": "termination",
+            "version": 1,
+            "component_version": 1,
+            "description": "Terminate the conversation after a maximum number of messages have been exchanged.",
+            "label": "MaxMessageTermination",
+            "config": {
+              "max_messages": 20,
+              "include_agent_event": false
+            }
+          }
+        ]
+      }
+    }
+  }
+}
