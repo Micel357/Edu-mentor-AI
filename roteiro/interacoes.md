@@ -1,4 +1,4 @@
- Documentação do Sistema de Agentes de IA: EduMentor AI
+Documentação do Sistema de Agentes de IA: EduMentor AI
 
 Roteiro Textual das Interações
 
@@ -61,7 +61,7 @@ Exemplo prático e teste de validação do fluxo.
 
 
 
- Agentes Principais do Sistema
+Agentes Principais do Sistema
 
 O sistema é composto por 7 agentes especializados, coordenados por Luis, o Orquestrador.
 
@@ -92,8 +92,5 @@ Sugerir como o aluno deve organizar o tempo ou revisar esse conteúdo específic
 Jose
 Agente de Relatório de Progresso
 Analisar todo o histórico da conversa para gerar um Parecer Final estruturado (Consolidar o processo e emitir o parecer final).
-
-
-
 
 
