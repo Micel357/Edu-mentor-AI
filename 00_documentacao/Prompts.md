@@ -194,7 +194,7 @@ REGRAS DE EXECUÇÃO:
 FORMATO DE SAÍDA (Obrigatório):
 Gere um relatório usando Markdown com a seguinte estrutura exata:
 
-## 📋 Relatório de Sessão de Aprendizagem
+##  Relatório de Sessão de Aprendizagem
 * **Tópico Abordado:** [Insira o tema]
 * **Status do Desempenho:** [Aprovado / Requer Revisão]
 * **Ponto de Dificuldade:** [Resuma o diagnóstico da Erika]
